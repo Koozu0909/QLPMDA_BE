@@ -21,7 +21,6 @@ namespace QLPMDA_Project.Controllers
             _userSvc = httpContextAccessor.HttpContext.RequestServices.GetRequiredService<UserService>();
         }
 
-        //Register 
         [HttpPost("register")]
         public IActionResult Register([FromBody] LoginVM user)
         {
@@ -60,8 +59,6 @@ namespace QLPMDA_Project.Controllers
                 return Unauthorized();
             }
         }
-
-
 
         private Users? Authenticate(LoginVM userLogin)
         {

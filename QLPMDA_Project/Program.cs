@@ -7,6 +7,18 @@ using TMS.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Cors http://localhost:3000/
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactApp", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -75,5 +87,5 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
+app.UseCors("ReactApp");
 app.Run();

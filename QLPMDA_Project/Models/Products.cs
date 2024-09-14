@@ -15,7 +15,7 @@ public partial class Products
 
     public int Quantity { get; set; }
 
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
 
     public bool Active { get; set; }
 
@@ -27,5 +27,7 @@ public partial class Products
 
     public int? UpdatedBy { get; set; }
 
-    public virtual Categories Category { get; set; } = null!;
+    public string? Image { get; set; }
+
+    public virtual Categories? Category { get; set; }
 }
