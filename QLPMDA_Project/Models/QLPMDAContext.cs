@@ -13,6 +13,10 @@ public partial class QLPMDAContext : DbContext
 
     public virtual DbSet<Categories> Categories { get; set; }
 
+    public virtual DbSet<Order> Order { get; set; }
+
+    public virtual DbSet<OrderDetail> OrderDetail { get; set; }
+
     public virtual DbSet<Products> Products { get; set; }
 
     public virtual DbSet<Users> Users { get; set; }
@@ -26,6 +30,31 @@ public partial class QLPMDAContext : DbContext
             entity.Property(e => e.Active).HasDefaultValue(true);
             entity.Property(e => e.CategoryName).HasMaxLength(250);
             entity.Property(e => e.Description).HasMaxLength(1000);
+        });
+
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC0739DB3FBA");
+
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.CustomerName).HasMaxLength(100);
+            entity.Property(e => e.IdRaw).HasMaxLength(200);
+            entity.Property(e => e.OrderDate).HasColumnType("datetime");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+        });
+
+        modelBuilder.Entity<OrderDetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC07E75D8259");
+
+            entity.Property(e => e.Active).HasDefaultValue(true);
+            entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.ProductName).HasMaxLength(100);
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetail)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__OrderDeta__Order__628FA481");
         });
 
         modelBuilder.Entity<Products>(entity =>

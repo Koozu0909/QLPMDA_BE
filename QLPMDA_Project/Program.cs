@@ -1,21 +1,23 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ProGCoder_MomoAPI.Services;
 using QLPMDA_Project.Models;
+using QLPMDA_Project.ViewModels.Momo;
 using System.Text;
 using TMS.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Cors http://localhost:3000/
+//Access-Control-Allow-Origin:*
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("ReactApp", builder =>
+    options.AddPolicy("AllowAll", builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.AllowAnyOrigin()
             .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowAnyMethod();
     });
 });
 
@@ -57,7 +59,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<UserService>();
 
 builder.Services.AddAuthorization();
-
+builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+builder.Services.AddScoped<IMomoService, MomoService>();
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -87,5 +90,5 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseCors("ReactApp");
+app.UseCors("AllowAll");
 app.Run();
