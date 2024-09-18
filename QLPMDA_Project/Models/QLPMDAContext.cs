@@ -39,7 +39,9 @@ public partial class QLPMDAContext : DbContext
             entity.Property(e => e.Active).HasDefaultValue(true);
             entity.Property(e => e.CustomerName).HasMaxLength(100);
             entity.Property(e => e.IdRaw).HasMaxLength(200);
+            entity.Property(e => e.IsPay).HasDefaultValue(false);
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
+            entity.Property(e => e.PaymentMethod).HasMaxLength(200);
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
         });
 
@@ -50,11 +52,6 @@ public partial class QLPMDAContext : DbContext
             entity.Property(e => e.Active).HasDefaultValue(true);
             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.ProductName).HasMaxLength(100);
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetail)
-                .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderDeta__Order__628FA481");
         });
 
         modelBuilder.Entity<Products>(entity =>

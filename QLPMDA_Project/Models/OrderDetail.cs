@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace QLPMDA_Project.Models;
+﻿namespace QLPMDA_Project.Models;
 
 public partial class OrderDetail
 {
@@ -26,6 +23,4 @@ public partial class OrderDetail
     public DateTime? UpdatedDate { get; set; }
 
     public int? UpdatedBy { get; set; }
-
-    public virtual Order Order { get; set; } = null!;
 }

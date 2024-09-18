@@ -25,5 +25,7 @@ public partial class Order
 
     public int? UpdatedBy { get; set; }
 
-    public virtual ICollection<OrderDetail> OrderDetail { get; set; } = new List<OrderDetail>();
+    public bool? IsPay { get; set; }
+
+    public string? PaymentMethod { get; set; }
 }
